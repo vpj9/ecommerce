@@ -1,5 +1,8 @@
 package com.jsp.ecommerce.dto;
 
-public class UserDto {
+import lombok.Data;
 
+
+public class UserDto {
+	
 }

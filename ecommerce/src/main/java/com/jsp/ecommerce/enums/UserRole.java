@@ -1,5 +1,5 @@
 package com.jsp.ecommerce.enums;
 
-public class UserRole {
-
+public enum UserRole {
+	ADMIN, USER, MERCHANT
 }
