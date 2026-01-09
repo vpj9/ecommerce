@@ -2,7 +2,8 @@ package com.jsp.ecommerce.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,8 +29,13 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	SecurityFilterChain chain(HttpSecurity http) throws Exception {
-		return http.csrf(x->x.disable())
+	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+
+	@Bean
+	SecurityFilterChain chain(HttpSecurity http)  {
+		return http.csrf(x -> x.disable())
 				.authorizeHttpRequests(x -> x.requestMatchers("/auth/**").permitAll().anyRequest().authenticated())
 				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 				.sessionManagement(x -> x.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).build();

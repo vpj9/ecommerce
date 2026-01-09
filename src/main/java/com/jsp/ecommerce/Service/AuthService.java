@@ -2,7 +2,9 @@ package com.jsp.ecommerce.Service;
 
 import java.util.Map;
 
-import com.jsp.ecommerce.dto.LoginDto;
+
+import com.jsp.ecommerce.dto.MerchantDto;
+import com.jsp.ecommerce.dto.OtpDto;
 
 public interface AuthService {
 	Map<String, Object> login(String email, String password);
@@ -11,6 +13,11 @@ public interface AuthService {
 
 	Map<String, Object> updatePassword(String email, String oldPassword, String newPassword);
 
+	Map<String, Object> registerMerchant(MerchantDto merchantDto);
+
+	Map<String, Object> verifyMerchantOtp(OtpDto dto);
+
+	Map<String, Object> resendMerchantOtp(String email);
 	
 
 }
