@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import com.jsp.ecommerce.Service.AuthService;
+import com.jsp.ecommerce.dto.CustomerDto;
 import com.jsp.ecommerce.dto.LoginDto;
 import com.jsp.ecommerce.dto.MerchantDto;
 import com.jsp.ecommerce.dto.OtpDto;
@@ -60,11 +61,32 @@ public class AuthController {
 			@RequestBody OtpDto dto){
 		return authService.verifyMerchantOtp(dto);
 	}
-	
+
 	@PatchMapping("/merchant/resend/{email}")
 	@ResponseStatus(HttpStatus.OK)
 	public Map<String, Object> resendOtp(@PathVariable String email){
 		return authService.resendMerchantOtp(email);
 	}
+	
+	@PostMapping("/customer/register")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Map<String, Object> registerCustomerAccount(@Valid @RequestBody CustomerDto customerDto) {
+		return authService.registerCustomer(customerDto);
+	}
+	
+	
+	@PatchMapping("/customer/otp")
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Object> verifyCustomerOtp(@Valid
+			@RequestBody OtpDto dto){
+		return authService.verifyCustomerOtp(dto);
+	}
+	
+	@PatchMapping("/customer/resend/{email}")
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Object> resendCustomerOtp(@PathVariable String email){
+		return authService.resendCustomerOtp(email);
+	}
 
 }
+
