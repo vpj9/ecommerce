@@ -20,6 +20,7 @@ public class ExtraConfig {
 		template.setHashKeySerializer(new StringRedisSerializer());
 		template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 		template.afterPropertiesSet();
+		
 		return template;
 	}
 }

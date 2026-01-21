@@ -1,6 +1,11 @@
 package com.jsp.ecommerce.dao;
 
 
+
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import org.springframework.stereotype.Repository;
 
 import com.jsp.ecommerce.Repository.CustomerRepository;
@@ -26,7 +31,8 @@ public class UserDao {
 	}
 
 	public User findByEmail(String email) {
-		return userRepository.findByEmail(email).orElseThrow();
+		return userRepository.findByEmail(email)
+				.orElseThrow(() -> new NoSuchElementException("No User with Email: " + email));
 	}
 
 	public void save(User user) {
@@ -39,4 +45,31 @@ public class UserDao {
 	public void save(Customer customer) {
 		customerRepository.save(customer);
 	}
+	
+
+	public List<Customer> getAllCustomers() {
+		List<Customer> customers = customerRepository.findAll();
+		if (customers.isEmpty())
+			throw new NoSuchElementException("No Customer Records Found");
+		return customers;
+	}
+
+	public List<Merchant> getAllMerchants() {
+		List<Merchant> merchants = merchantRepository.findAll();
+		if (merchants.isEmpty())
+			throw new NoSuchElementException("No Merchant Records Found");
+		return merchants;
+	}
+
+	public User findById(Integer id) {
+		return userRepository.findById(id).orElseThrow(()->new NoSuchElementException("No User with Id: "+id));
+	}
+	public Merchant getMerchantByEmail(String email) {
+		User user = findByEmail(email);
+		return merchantRepository.findByUser(user)
+				.orElseThrow(() -> new NoSuchElementException("No User with Email: " + email));
+	}
+	
+
+	
 }

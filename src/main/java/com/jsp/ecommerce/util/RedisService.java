@@ -19,14 +19,11 @@ public class RedisService {
 
 	@Async
 	public void saveOtp(Integer otp, String email) {
-		redisTemplate.opsForValue().set(email+"_otp", otp,Duration.ofMinutes(5));
-		
+		redisTemplate.opsForValue().set(email + "_otp", otp, Duration.ofMinutes(5));
 	}
 
-
 	public Integer getOtp(String email) {
-		return (Integer) redisTemplate.opsForValue().get(email+"_otp");
-		
+		return (Integer) redisTemplate.opsForValue().get(email + "_otp");
 	}
 
 	@Async
@@ -42,14 +39,10 @@ public class RedisService {
 	public void saveTempCustomerData(CustomerDto customerDto, String email) {
 		redisTemplate.opsForValue().set(email + "_customer", customerDto, Duration.ofMinutes(30));
 	}
-	
-
 
 	public CustomerDto getTempCustomerData(String email) {
 		return (CustomerDto) redisTemplate.opsForValue().get(email + "_customer");
 	}
-
-
 	
 
 }
