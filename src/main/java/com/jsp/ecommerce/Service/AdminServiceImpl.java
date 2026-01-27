@@ -5,11 +5,13 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.jsp.ecommerce.dao.ProductDao;
 import com.jsp.ecommerce.dao.UserDao;
 import com.jsp.ecommerce.entity.Customer;
 import com.jsp.ecommerce.entity.Merchant;
 import com.jsp.ecommerce.entity.Product;
 import com.jsp.ecommerce.entity.User;
+import com.jsp.ecommerce.mapper.ProductMapper;
 import com.jsp.ecommerce.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;

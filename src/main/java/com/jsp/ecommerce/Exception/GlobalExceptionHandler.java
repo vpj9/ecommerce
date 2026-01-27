@@ -8,8 +8,11 @@ import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -75,16 +78,36 @@ public class GlobalExceptionHandler {
 	public Map<String, Object> handle(ConstraintViolationException exception) {
 		return Map.of("error", "Enter Proper Data");
 	}
+	@ExceptionHandler(InternalAuthenticationServiceException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public Map<String, Object> handle(InternalAuthenticationServiceException exception) {
+		return Map.of("error", "Invalid Email");
+	}
 	@ExceptionHandler(NoSuchElementException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public Map<String, Object> handle(NoSuchElementException exception) {
 		return Map.of("error", exception.getMessage());
 	}
-	
+	@ExceptionHandler(OutOfStockException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String, Object> handle(OutOfStockException exception) {
+		return Map.of("error", exception.getMessage());
+	}
+	@ExceptionHandler(DisabledException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public Map<String, Object> handle(DisabledException exception) {
+		return Map.of("error", "Account is Blocked Contact Admin");
+	}
+
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Map<String, Object> handle(RuntimeException exception) {
 		return Map.of("error", "Something Went Wrong");
+	}
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Map<String, Object> handle(MissingServletRequestParameterException exception) {
+		return Map.of("error", exception.getMessage());
 	}
 
 }

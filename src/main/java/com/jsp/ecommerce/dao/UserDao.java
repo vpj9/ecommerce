@@ -8,10 +8,12 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Repository;
 
+import com.jsp.ecommerce.Repository.CustomerOrderRepository;
 import com.jsp.ecommerce.Repository.CustomerRepository;
 import com.jsp.ecommerce.Repository.MerchantRepository;
 import com.jsp.ecommerce.Repository.UserRepository;
 import com.jsp.ecommerce.entity.Customer;
+import com.jsp.ecommerce.entity.CustomerOrder;
 import com.jsp.ecommerce.entity.Merchant;
 import com.jsp.ecommerce.entity.User;
 
@@ -25,6 +27,7 @@ public class UserDao {
 	private final UserRepository userRepository;
 	private final MerchantRepository merchantRepository;
 	private final CustomerRepository customerRepository;
+	private final CustomerOrderRepository customerOrderRepository;
 
 	public boolean checkEmailAndMobieDuplicate(String email, Long mobile) {
 		return userRepository.existsByEmailOrMobile(email, mobile);
@@ -69,7 +72,24 @@ public class UserDao {
 		return merchantRepository.findByUser(user)
 				.orElseThrow(() -> new NoSuchElementException("No User with Email: " + email));
 	}
+	public Customer findCustomerByEmail(String email) {
+		User user = findByEmail(email);
+		return customerRepository.findByUser(user)
+				.orElseThrow(() -> new NoSuchElementException("No User with Email: " + email));
+	}
 	
+	public void saveOrder(CustomerOrder customerOrder) {
+		customerOrderRepository.save(customerOrder);
+	}
 
+	public CustomerOrder getOrder(Long id) {
+		return customerOrderRepository.findById(id).orElseThrow(()->new NoSuchElementException("No Order Found"));
+	}
+	public List<CustomerOrder> getAllOrders(Customer customer) {
+		List<CustomerOrder> orders=customerOrderRepository.findByCustomer(customer);
+		if(orders.isEmpty())
+			throw new NoSuchElementException("No Orders Found");
+		return orders;
+	}
 	
 }

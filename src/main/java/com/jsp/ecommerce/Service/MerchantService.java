@@ -16,5 +16,7 @@ public interface MerchantService {
 	Map<String, Object> deleteProduct(Long id, String email);
 
 	Map<String, Object> updateProduct(Long id, ProductDto productDto, String email);
+	
+	Map<String, Object> addProducts(String email);
 
 }
